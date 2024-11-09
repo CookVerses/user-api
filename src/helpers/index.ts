@@ -1,8 +1,8 @@
 import * as uuid from 'uuid';
 
 import { Env } from '../constants/enums/env.enum';
-import { BackofficeRole } from '../constants/enums/backoffice-role.enum';
-import { JwtPayload } from '../constants/types/jwt-payload.type';
+// import { UserRole } from '../constants/enums/user-role.enum';
+
 /**
  * Check if the env value is in the list of allowed environment
  *

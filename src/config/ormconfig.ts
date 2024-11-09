@@ -7,6 +7,8 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 import { Env } from '../constants/enums/env.enum';
 import { assertToBeDefined, isDevOrTestEnv } from '../helpers';
 
+dotenv.config();
+
 export const ENV: Env = process.env.JEST_WORKER_ID
   ? Env.TEST
   : (assertToBeDefined(process.env.NODE_ENV) as Env);
@@ -29,12 +31,18 @@ export function initializeValue(
 export const ormConfig = {
   type: 'postgres',
   host: initializeValue(process.env.POSTGRES_HOST, 'localhost') as string,
-  port: parseInt(initializeValue(process.env.POSTGRES_PORT, '5434'), 10),
+  port: parseInt(initializeValue(process.env.POSTGRES_PORT, '5432'), 10),
   database: initializeValue(process.env.POSTGRES_DBNAME, 'user-api') as string,
-  username: initializeValue(process.env.POSTGRES_USERNAME, 'root') as string,
-  password: initializeValue(process.env.POSTGRES_PASSWORD, 'root') as string,
+  username: initializeValue(
+    process.env.POSTGRES_USERNAME,
+    'postgres',
+  ) as string,
+  password: initializeValue(
+    process.env.POSTGRES_PASSWORD,
+    'postgres',
+  ) as string,
   entities: [path.join(__dirname, '../../src/**/*/*.entity.ts')],
-  migrations: [path.join(__dirname, '../../database/migrations/*.ts')],
+  migrations: [path.join(__dirname, '../../database/*.ts')],
   migrationsTransactionMode: 'each',
 };
 
