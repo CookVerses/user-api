@@ -23,6 +23,12 @@ export class SubscriptionEntity {
   id!: string;
 
   @Column({
+    nullable: false,
+  })
+  @IsTrimmedStringWithoutTab()
+  name!: string;
+
+  @Column({
     type: 'enum',
     enum: SubscriptionStatus,
     nullable: false,
@@ -54,13 +60,7 @@ export class SubscriptionEntity {
   })
   updatedAt: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.subscription)
+  @ManyToOne(() => UserEntity, (user) => user.subscriptions)
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
-
-  @Column({
-    nullable: false,
-  })
-  @IsTrimmedStringWithoutTab()
-  name!: string;
 }

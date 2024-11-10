@@ -114,5 +114,5 @@ export class UserEntity {
   updatedAt: Date;
 
   @OneToMany(() => SubscriptionEntity, (subscription) => subscription.user)
-  subscription?: SubscriptionEntity;
+  subscriptions?: SubscriptionEntity[];
 }

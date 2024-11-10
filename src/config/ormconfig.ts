@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import { DataSource } from 'typeorm';
@@ -6,8 +5,6 @@ import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConne
 
 import { Env } from '../constants/enums/env.enum';
 import { assertToBeDefined, isDevOrTestEnv } from '../helpers';
-
-dotenv.config();
 
 export const ENV: Env = process.env.JEST_WORKER_ID
   ? Env.TEST
