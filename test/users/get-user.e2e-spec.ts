@@ -7,6 +7,7 @@ import { AppModule } from '../../src/app.module';
 import { UsersService } from '../../src/user/users.service';
 
 import { initializeTestDb, setupDataSource } from '../_utils_/db.util';
+import { UserToken } from '../_fixtures_/jwt-token.fixture';
 
 describe('#UsersController (e2e)', () => {
   let app: INestApplication;
@@ -33,6 +34,21 @@ describe('#UsersController (e2e)', () => {
   });
 
   describe('GET /users', () => {
+    it('should return UNAUTHORIZED if token is missing', () => {
+      return request(app.getHttpServer())
+        .get('/subscriptions')
+        .expect(401)
+        .expect({ code: 'UNAUTHORIZED', status: 401, message: 'Unauthorized' });
+    });
+
+    it('should return UNAUTHORIZED if token is incorrect', () => {
+      return request(app.getHttpServer())
+        .get('/subscriptions')
+        .set('Authorization', 'Bearer token')
+        .expect(401)
+        .expect({ code: 'UNAUTHORIZED', status: 401, message: 'Unauthorized' });
+    });
+
     describe('when user is authenticated', () => {
       afterEach(() => {
         jest.clearAllMocks();
@@ -46,6 +62,7 @@ describe('#UsersController (e2e)', () => {
 
         const { body } = await request(app.getHttpServer())
           .get('/users')
+          .set('Authorization', `Bearer ${UserToken}`)
           .expect(500);
 
         expect(body).toEqual({
@@ -60,6 +77,7 @@ describe('#UsersController (e2e)', () => {
         it('should correctly return a list of users', async () => {
           const { body } = await request(app.getHttpServer())
             .get('/users')
+            .set('Authorization', `Bearer ${UserToken}`)
             .expect(200);
 
           expect(body).toEqual([
@@ -77,6 +95,27 @@ describe('#UsersController (e2e)', () => {
               updatedAt: '2024-11-10T07:10:25.091Z',
             },
           ]);
+        });
+
+        it('should correctly return users detail', async () => {
+          const { body } = await request(app.getHttpServer())
+            .get('/users/3a572a4b-6290-4682-ad3b-7908c3d87595')
+            .set('Authorization', `Bearer ${UserToken}`)
+            .expect(200);
+
+          expect(body).toEqual({
+            id: '3a572a4b-6290-4682-ad3b-7908c3d87595',
+            username: 'user',
+            firstName: 'Phạm',
+            lastName: 'Cường',
+            gender: 'nam',
+            email: 'cuong@cookverse.com',
+            role: 'user',
+            dateOfBirth: '2003-01-03T18:30:00.000Z',
+            phoneNumber: '0909090909',
+            createdAt: '2024-11-10T07:10:25.091Z',
+            updatedAt: '2024-11-10T07:10:25.091Z',
+          });
         });
       });
     });

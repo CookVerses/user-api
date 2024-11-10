@@ -15,8 +15,42 @@ export class UsersService {
   ) {}
 
   async getListOfUsers(): Promise<UserEntity[]> {
-    const users = await this.userRepo.find();
+    const users = await this.userRepo.find({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        gender: true,
+        role: true,
+        dateOfBirth: true,
+        phoneNumber: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
     this.logger.log('Fetched list of users');
     return users;
+  }
+  async getUserById(id: string): Promise<UserEntity> {
+    const user = await this.userRepo.findOneOrFail({
+      where: { id },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        gender: true,
+        role: true,
+        dateOfBirth: true,
+        phoneNumber: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    this.logger.log('Fetched user by id');
+    return user;
   }
 }

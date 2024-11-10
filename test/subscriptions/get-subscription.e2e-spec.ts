@@ -7,6 +7,7 @@ import { AppModule } from '../../src/app.module';
 import { SubscriptionsService } from '../../src/subscription/subscriptions.service';
 
 import { initializeTestDb, setupDataSource } from '../_utils_/db.util';
+import { UserToken } from '../_fixtures_/jwt-token.fixture';
 
 describe('#SubscriptionsController (e2e)', () => {
   let app: INestApplication;
@@ -33,6 +34,21 @@ describe('#SubscriptionsController (e2e)', () => {
   });
 
   describe('GET /subscriptions', () => {
+    it('should return UNAUTHORIZED if token is missing', () => {
+      return request(app.getHttpServer())
+        .get('/subscriptions')
+        .expect(401)
+        .expect({ code: 'UNAUTHORIZED', status: 401, message: 'Unauthorized' });
+    });
+
+    it('should return UNAUTHORIZED if token is incorrect', () => {
+      return request(app.getHttpServer())
+        .get('/subscriptions')
+        .set('Authorization', 'Bearer token')
+        .expect(401)
+        .expect({ code: 'UNAUTHORIZED', status: 401, message: 'Unauthorized' });
+    });
+
     describe('when user is authenticated', () => {
       afterEach(() => {
         jest.clearAllMocks();
@@ -46,6 +62,7 @@ describe('#SubscriptionsController (e2e)', () => {
 
         const { body } = await request(app.getHttpServer())
           .get('/subscriptions')
+          .set('Authorization', `Bearer ${UserToken}`)
           .expect(500);
 
         expect(body).toEqual({
@@ -60,6 +77,7 @@ describe('#SubscriptionsController (e2e)', () => {
         it('should correctly return a list of subscriptions', async () => {
           const { body } = await request(app.getHttpServer())
             .get('/subscriptions')
+            .set('Authorization', `Bearer ${UserToken}`)
             .expect(200);
 
           expect(body).toEqual([

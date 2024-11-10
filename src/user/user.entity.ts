@@ -39,7 +39,6 @@ export class UserEntity {
 
   @Column({
     nullable: false,
-    select: false,
   })
   @IsTrimmedStringWithoutTab()
   password!: string;

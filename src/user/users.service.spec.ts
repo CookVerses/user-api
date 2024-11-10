@@ -34,9 +34,32 @@ describe('[users] Users Service', () => {
       getListOfUsersSpy = jest.spyOn(usersRepo, 'find');
     });
 
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
     test('should correctly return list of users', async () => {
       getListOfUsersSpy.mockResolvedValue(users);
       await expect(usersService.getListOfUsers()).resolves.toEqual(users);
+    });
+  });
+
+  describe('#getUserById', () => {
+    let getUserByIdSpy: jest.SpyInstance;
+
+    beforeAll(() => {
+      getUserByIdSpy = jest.spyOn(usersRepo, 'findOneOrFail');
+    });
+
+    afterEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('should correctly return users detail', async () => {
+      getUserByIdSpy.mockResolvedValue(users[0]);
+      await expect(usersService.getUserById(users[0].id)).resolves.toEqual(
+        users[0],
+      );
     });
   });
 });
