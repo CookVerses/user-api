@@ -1,4 +1,4 @@
-import { DataSource, Repository, EntityNotFoundError, ILike } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 
 import { SubscriptionEntity } from './subscription.entity';
 import { SubscriptionsService } from './subscriptions.service';

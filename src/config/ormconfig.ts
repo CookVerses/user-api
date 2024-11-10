@@ -8,11 +8,7 @@ import { assertToBeDefined, isDevOrTestEnv } from '../helpers';
 
 export const ENV: Env = process.env.JEST_WORKER_ID
   ? Env.TEST
-  : (assertToBeDefined(process.env.NODE_ENV) as Env);
-
-if (ENV === Env.DEVELOPMENT) {
-  dotenv.config();
-}
+  : (dotenv.config(), assertToBeDefined(process.env.NODE_ENV) as Env);
 
 export function initializeValue(
   value: string | undefined,

@@ -14,7 +14,7 @@ export const users: UserEntity[] = [
     role: UserRole.USER,
     dateOfBirth: new Date('2003-01-03T18:30:00.000Z'),
     phoneNumber: '0909090909',
-    createdAt: new Date(),
-    updatedAt: new Date(),
+    createdAt: new Date('2024-11-10T07:10:25.091Z'),
+    updatedAt: new Date('2024-11-10T07:10:25.091Z'),
   },
 ];
