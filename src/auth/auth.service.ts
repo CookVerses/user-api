@@ -9,6 +9,8 @@ import { JwtPayload } from '../constants/types/jwt-payload.type';
 import { Logger } from '../services/logger.service';
 import { ApiError } from '../errors/exceptions';
 import { transformSelectFields } from '../helpers/transform-select-fields';
+import { UserRole } from '../constants/enums/user-role.enum';
+import { Gender } from '../constants/enums/gender.enum';
 
 @Injectable()
 export class AuthService {
@@ -61,5 +63,43 @@ export class AuthService {
     };
 
     return { token: this.jwtService.sign(jwtPayload) };
+  }
+
+  async register(
+    username: string,
+    password: string,
+    firstName: string,
+    lastName: string,
+    gender: Gender,
+    email: string,
+  ): Promise<{ message: string }> {
+    this.logger.log({
+      username,
+      message: '[register] New user registration',
+    });
+    const existingUser = await this.userRepo.findOne({
+      where: [{ username: username }, { email: email }],
+    });
+
+    if (existingUser) {
+      throw new ApiError('BAD_REQUEST', 'Username or email already exists');
+    }
+
+    const role = UserRole.USER;
+
+    const newUser = this.userRepo.create({
+      username,
+      password,
+      firstName,
+      lastName,
+      gender,
+      email,
+      role,
+    });
+    await this.userRepo.save(newUser);
+
+    return {
+      message: 'User registered successfully',
+    };
   }
 }

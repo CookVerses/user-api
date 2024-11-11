@@ -38,7 +38,7 @@ async function bootstrap() {
   });
 
   const docConfig = new DocumentBuilder()
-    .setTitle('Product API Documentation')
+    .setTitle('User API Documentation')
     .setDescription('Play with the API')
     .setVersion('1.0')
     .addBearerAuth({ type: 'http' }, 'user')

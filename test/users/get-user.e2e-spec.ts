@@ -91,7 +91,7 @@ describe('#UsersController (e2e)', () => {
                 email: 'cuong@cookverse.com',
                 role: 'user',
                 dateOfBirth: '2003-01-03T18:30:00.000Z',
-                phoneNumber: '0909090909',
+                phoneNumber: '+84909090909',
                 subscriptions: [
                   {
                     endDate: '2022-11-24T18:30:00.000Z',
@@ -136,7 +136,7 @@ describe('#UsersController (e2e)', () => {
               email: 'cuong@cookverse.com',
               role: 'user',
               dateOfBirth: '2003-01-03T18:30:00.000Z',
-              phoneNumber: '0909090909',
+              phoneNumber: '+84909090909',
               subscriptions: [
                 {
                   endDate: '2022-11-24T18:30:00.000Z',

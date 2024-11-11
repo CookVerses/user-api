@@ -120,7 +120,7 @@ export class UserEntity {
     nullable: true,
   })
   @IsOptional()
-  @IsPhoneNumber()
+  @IsPhoneNumber('VN')
   phoneNumber?: string;
 
   @Column({

@@ -7,6 +7,7 @@ import { AuthController } from './auth.controller';
 import { UserEntity } from '../user/user.entity';
 import { config } from '../config/index';
 import { JwtStrategy } from './jwt.strategy';
+import { AuthSubscriber } from './auth.subscriber';
 
 @Module({
   imports: [
@@ -28,6 +29,6 @@ import { JwtStrategy } from './jwt.strategy';
     TypeOrmModule.forFeature([UserEntity]),
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, AuthSubscriber, JwtStrategy],
 })
 export class AuthModule {}
