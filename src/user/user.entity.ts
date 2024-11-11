@@ -23,6 +23,38 @@ import { Gender } from '../constants/enums/gender.enum';
 import { UserRole } from '../constants/enums/user-role.enum';
 import { SubscriptionEntity } from '../subscription/subscription.entity';
 
+export type SelectFields =
+  | keyof UserEntity
+  | 'subscriptions.id'
+  | 'subscriptions.name'
+  | 'subscriptions.status'
+  | 'subscriptions.startDate'
+  | 'subscriptions.endDate';
+
+// use for login information
+export const BASIC_SELECTABLE_FIELDS: (keyof UserEntity)[] = [
+  'id',
+  'username',
+  'password',
+  'role',
+  'firstName',
+  'lastName',
+];
+
+// use for get user information
+export const DEFAULT_SELECTED_FIELDS: SelectFields[] = [
+  ...BASIC_SELECTABLE_FIELDS.filter((field) => field !== 'password'),
+  'gender',
+  'email',
+  'dateOfBirth',
+  'phoneNumber',
+  'subscriptions.id',
+  'subscriptions.name',
+  'subscriptions.status',
+  'subscriptions.startDate',
+  'subscriptions.endDate',
+];
+
 @Entity(EntityName.USER)
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')

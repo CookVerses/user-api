@@ -40,7 +40,34 @@ describe('[users] Users Service', () => {
 
     test('should correctly return list of users', async () => {
       getListOfUsersSpy.mockResolvedValue(users);
-      await expect(usersService.getListOfUsers()).resolves.toEqual(users);
+
+      await expect(usersService.getListOfUsers()).resolves.toEqual({ users });
+
+      expect(getListOfUsersSpy.mock.calls).toEqual([
+        [
+          {
+            relations: ['subscriptions'],
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              username: true,
+              phoneNumber: true,
+              dateOfBirth: true,
+              gender: true,
+              role: true,
+              subscriptions: {
+                id: true,
+                name: true,
+                startDate: true,
+                endDate: true,
+                status: true,
+              },
+            },
+          },
+        ],
+      ]);
     });
   });
 
@@ -57,9 +84,38 @@ describe('[users] Users Service', () => {
 
     test('should correctly return users detail', async () => {
       getUserByIdSpy.mockResolvedValue(users[0]);
-      await expect(usersService.getUserById(users[0].id)).resolves.toEqual(
-        users[0],
-      );
+      await expect(usersService.getUserById(users[0].id)).resolves.toEqual({
+        user: users[0],
+      });
+
+      expect(getUserByIdSpy.mock.calls).toEqual([
+        [
+          {
+            relations: ['subscriptions'],
+            where: {
+              id: users[0].id,
+            },
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              username: true,
+              phoneNumber: true,
+              dateOfBirth: true,
+              gender: true,
+              role: true,
+              subscriptions: {
+                id: true,
+                name: true,
+                startDate: true,
+                endDate: true,
+                status: true,
+              },
+            },
+          },
+        ],
+      ]);
     });
   });
 });

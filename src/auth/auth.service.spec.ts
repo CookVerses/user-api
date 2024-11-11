@@ -69,9 +69,21 @@ describe('[auth] Authentication Service', () => {
     );
 
     expect(result).toEqual({ token: UserToken });
-    expect(findOneUserSpy).toHaveBeenCalledWith({
-      where: { username: users[0].username },
-    });
+    expect(findOneUserSpy.mock.calls).toEqual([
+      [
+        {
+          select: {
+            id: true,
+            username: true,
+            password: true,
+            firstName: true,
+            lastName: true,
+            role: true,
+          },
+          where: { username: users[0].username },
+        },
+      ],
+    ]);
     expect(jwtSpy).toHaveBeenCalledWith({
       userId: users[0].id,
       username: users[0].username,

@@ -10,7 +10,7 @@ import { NextFunction, Request, Response } from 'express';
 
 import { ApiError, ErrorResponseFormat } from '../errors/exceptions';
 import { RESPONSE_API_ERROR_SYMBOL } from '../errors/exception-filter';
-import { config } from '../config';
+import { config } from '../config/index';
 import { Env } from '../constants/enums/env.enum';
 import { isDevOrTestEnv } from '../helpers';
 

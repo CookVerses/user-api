@@ -80,21 +80,44 @@ describe('#UsersController (e2e)', () => {
             .set('Authorization', `Bearer ${UserToken}`)
             .expect(200);
 
-          expect(body).toEqual([
-            {
-              id: '3a572a4b-6290-4682-ad3b-7908c3d87595',
-              username: 'user',
-              firstName: 'Phạm',
-              lastName: 'Cường',
-              gender: 'nam',
-              email: 'cuong@cookverse.com',
-              role: 'user',
-              dateOfBirth: '2003-01-03T18:30:00.000Z',
-              phoneNumber: '0909090909',
-              createdAt: '2024-11-10T07:10:25.091Z',
-              updatedAt: '2024-11-10T07:10:25.091Z',
-            },
-          ]);
+          expect(body).toEqual({
+            users: [
+              {
+                id: '3a572a4b-6290-4682-ad3b-7908c3d87595',
+                username: 'user',
+                firstName: 'Phạm',
+                lastName: 'Cường',
+                gender: 'nam',
+                email: 'cuong@cookverse.com',
+                role: 'user',
+                dateOfBirth: '2003-01-03T18:30:00.000Z',
+                phoneNumber: '0909090909',
+                subscriptions: [
+                  {
+                    endDate: '2022-11-24T18:30:00.000Z',
+                    id: 'e5d33c13-b2f2-432a-97c3-844690150ed3',
+                    name: 'Basic',
+                    startDate: '2022-11-17T18:30:00.000Z',
+                    status: 'Đang hoạt động',
+                  },
+                  {
+                    endDate: '2022-12-17T18:30:00.000Z',
+                    id: '5cb97020-000e-40fa-a610-1176a7984d6a',
+                    name: 'Gold',
+                    startDate: '2022-11-17T18:30:00.000Z',
+                    status: 'Không hoạt động',
+                  },
+                  {
+                    endDate: '2023-02-17T18:30:00.000Z',
+                    id: 'e5d33c13-b2f2-432a-97c3-844690150fd9',
+                    name: 'Premium',
+                    startDate: '2022-11-17T18:30:00.000Z',
+                    status: 'Đã hủy',
+                  },
+                ],
+              },
+            ],
+          });
         });
 
         it('should correctly return users detail', async () => {
@@ -104,17 +127,40 @@ describe('#UsersController (e2e)', () => {
             .expect(200);
 
           expect(body).toEqual({
-            id: '3a572a4b-6290-4682-ad3b-7908c3d87595',
-            username: 'user',
-            firstName: 'Phạm',
-            lastName: 'Cường',
-            gender: 'nam',
-            email: 'cuong@cookverse.com',
-            role: 'user',
-            dateOfBirth: '2003-01-03T18:30:00.000Z',
-            phoneNumber: '0909090909',
-            createdAt: '2024-11-10T07:10:25.091Z',
-            updatedAt: '2024-11-10T07:10:25.091Z',
+            user: {
+              id: '3a572a4b-6290-4682-ad3b-7908c3d87595',
+              username: 'user',
+              firstName: 'Phạm',
+              lastName: 'Cường',
+              gender: 'nam',
+              email: 'cuong@cookverse.com',
+              role: 'user',
+              dateOfBirth: '2003-01-03T18:30:00.000Z',
+              phoneNumber: '0909090909',
+              subscriptions: [
+                {
+                  endDate: '2022-11-24T18:30:00.000Z',
+                  id: 'e5d33c13-b2f2-432a-97c3-844690150ed3',
+                  name: 'Basic',
+                  startDate: '2022-11-17T18:30:00.000Z',
+                  status: 'Đang hoạt động',
+                },
+                {
+                  endDate: '2022-12-17T18:30:00.000Z',
+                  id: '5cb97020-000e-40fa-a610-1176a7984d6a',
+                  name: 'Gold',
+                  startDate: '2022-11-17T18:30:00.000Z',
+                  status: 'Không hoạt động',
+                },
+                {
+                  endDate: '2023-02-17T18:30:00.000Z',
+                  id: 'e5d33c13-b2f2-432a-97c3-844690150fd9',
+                  name: 'Premium',
+                  startDate: '2022-11-17T18:30:00.000Z',
+                  status: 'Đã hủy',
+                },
+              ],
+            },
           });
         });
       });

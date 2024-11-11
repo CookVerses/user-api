@@ -4,11 +4,11 @@ import { JwtService } from '@nestjs/jwt';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { config } from '../config';
-import { UserEntity } from '../user/user.entity';
+import { UserEntity, BASIC_SELECTABLE_FIELDS } from '../user/user.entity';
 import { JwtPayload } from '../constants/types/jwt-payload.type';
 import { Logger } from '../services/logger.service';
 import { ApiError } from '../errors/exceptions';
+import { transformSelectFields } from '../helpers/transform-select-fields';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +26,10 @@ export class AuthService {
       pass,
       message: '[login] User login',
     });
-    const user = await this.userRepo.findOne({ where: { username } });
+    const user = await this.userRepo.findOne({
+      select: transformSelectFields(BASIC_SELECTABLE_FIELDS),
+      where: { username },
+    });
 
     if (!user) {
       this.logger.log({

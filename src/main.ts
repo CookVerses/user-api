@@ -8,7 +8,7 @@ import helmet from 'helmet';
 
 import { AppModule } from './app.module';
 import { Logger } from './services/logger.service';
-import { config } from './config';
+import { config } from './config/index';
 
 const logger = new Logger();
 
