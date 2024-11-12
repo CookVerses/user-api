@@ -1,4 +1,5 @@
 import { ApiBodyOptions } from '@nestjs/swagger';
+import { Gender } from 'src/constants/enums/gender.enum';
 
 export const loginBodySchema: ApiBodyOptions = {
   schema: {
@@ -39,6 +40,10 @@ export const registerBodySchema: ApiBodyOptions = {
       email: {
         type: 'string',
         default: 'example@example.com',
+      },
+      gender: {
+        type: 'string',
+        default: Gender.MALE,
       },
     },
   },
